@@ -1,12 +1,15 @@
 <#import "layouts/base.ftlh" as base>
-<@base.mainMacro title="Sign in" css=["error.css"] >
+<@base.mainMacro title="Фильмы" css=["error.css"] >
     <div class="container">
         <h1 class="text-center">Фильмы в прокате</h1>
+        <#if user?? && user.role == "ROLE_ADMIN">
+            <a class="button btn-success btn">Добавить Фильм</a>
+        </#if>
         <div class="row">
             <#list films as film>
                 <div class="col">
                     <div class="card" style="width: 18rem;">
-                        <img src="/dist/img/${film.poster}" class="card-img-top" alt="...">
+                        <img src="/dist/img/${film.posterName}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">${film.title}</h5>
                             <p class="card-text">${film.description}</p>

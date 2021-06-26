@@ -1,6 +1,6 @@
 
 <#import "layouts/base.ftlh" as base>
-<@base.mainMacro title="Sign in" css=["error.css"] >
+<@base.mainMacro title="Авторизация" css=["error.css"] >
     <main>
         <div class="container">
             <section class="mt-5 mb-4">

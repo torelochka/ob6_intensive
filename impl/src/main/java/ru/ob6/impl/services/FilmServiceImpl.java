@@ -8,6 +8,7 @@ import ru.ob6.api.services.FilmService;
 import ru.ob6.impl.repositories.FilmRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,5 +29,11 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findAll().stream()
                 .map(f -> modelMapper.map(f, FilmDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<FilmDto> findById(Long id) {
+        return filmRepository.findById(id)
+                .map(f -> modelMapper.map(f, FilmDto.class));
     }
 }
