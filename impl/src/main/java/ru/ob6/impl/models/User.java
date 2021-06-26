@@ -61,9 +61,8 @@ public class User implements UserDetails {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return getEmail();
+    public enum Role {
+        ROLE_USER, ROLE_ADMIN
     }
 
     @Override
