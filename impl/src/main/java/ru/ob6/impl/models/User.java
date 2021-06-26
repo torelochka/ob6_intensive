@@ -1,54 +1,46 @@
 package ru.ob6.impl.models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @Table(name = "users")
-@RequiredArgsConstructor
 public class User implements UserDetails {
 
     //region Fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
 
-    @NonNull
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NonNull
     @Column(nullable = false)
     private String firstName;
 
-    @NonNull
     @Column(nullable = false)
     private String city;
 
-    @NonNull
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private boolean isEmailConfirmed = false;
 
-    @NonNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
-    //endregion
 
-    //region UserDetails implemented methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<Role> roles = new ArrayList<>();
@@ -57,12 +49,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public @NonNull String getPassword() {
-        return password;
-    }
-
-    public enum Role {
-        ROLE_USER, ROLE_ADMIN
+    public String getUsername() {
+        return getEmail();
     }
 
     @Override
@@ -82,7 +70,15 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEmailConfirmed;
+        return isEmailConfirmed();
     }
-    //endregion
+
+    public enum Role implements GrantedAuthority{
+        ROLE_USER, ROLE_ADMIN;
+
+        @Override
+        public String getAuthority() {
+            return this.name();
+        }
+    }
 }
