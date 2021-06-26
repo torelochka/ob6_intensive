@@ -14,4 +14,6 @@ public class AddFilmController {
 
         return "add_film";
     }
+
+    // TODO: при добавлении фильма, забирать с ссылки на трейлер лишь последнюю часть
 }
