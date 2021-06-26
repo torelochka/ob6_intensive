@@ -32,7 +32,7 @@ public class User {
     @Builder.Default
     private Role role = Role.ROLE_USER;
 
-    private enum Role {
+    public enum Role {
         ROLE_USER, ROLE_ADMIN
     }
 
