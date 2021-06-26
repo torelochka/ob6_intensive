@@ -14,6 +14,7 @@ import ru.ob6.impl.models.User;
 import ru.ob6.impl.repositories.UserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<UserDto> userById(Long id) {
+    public Optional<UserDto> userById(UUID id) {
         Optional<User> userOptional = userRepository.findUserById(id);
         return userOptional.stream().map(user -> modelMapper.map(user, UserDto.class)).findFirst();
     }
@@ -48,13 +49,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void saveUser(SignUpForm signUpForm) {
         userRepository.save(
                 User.builder()
-                .email(signUpForm.getEmail())
-                .firstName(signUpForm.getFirstName())
-                .city(signUpForm.getCity())
-                .password(passwordEncoder.encode(signUpForm.getPassword()))
-                .role(User.Role.ROLE_USER)
-                        .build()
+                        .email(signUpForm.getEmail())
+                        .firstName(signUpForm.getFirstName())
+                        .city(signUpForm.getCity())
+                        .password(passwordEncoder.encode(signUpForm.getPassword()))
+                        .role(User.Role.ROLE_ADMIN)
+                .build()
         );
+    }
+
+    @Override
+    public boolean confirmEmail(UUID id) {
+        Optional<User> userOptional = userRepository.findUserById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setEmailConfirmed(true);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     @Override

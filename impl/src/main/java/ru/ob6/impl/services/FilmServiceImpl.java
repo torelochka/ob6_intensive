@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ob6.api.dto.FilmDto;
 import ru.ob6.api.services.FilmService;
+import ru.ob6.impl.models.Film;
 import ru.ob6.impl.repositories.FilmRepository;
 
 import java.util.List;
@@ -35,5 +36,17 @@ public class FilmServiceImpl implements FilmService {
     public Optional<FilmDto> findById(Long id) {
         return filmRepository.findById(id)
                 .map(f -> modelMapper.map(f, FilmDto.class));
+    }
+
+    @Override
+    public void saveFilm(FilmDto filmDto) {
+        filmRepository.save(
+                Film.builder()
+                        .title(filmDto.getTitle())
+                        .description(filmDto.getDescription())
+                        .posterName(filmDto.getPosterName())
+                        .trailerUrl(filmDto.getTrailerUrl())
+                .build()
+        );
     }
 }
