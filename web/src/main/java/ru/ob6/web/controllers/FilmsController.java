@@ -15,25 +15,15 @@ import java.util.Optional;
 public class FilmsController {
 
     private final FilmService filmService;
-    private final UserService userService;
 
     @Autowired
-    public FilmsController(FilmService filmService, UserService userService) {
+    public FilmsController(FilmService filmService) {
         this.filmService = filmService;
-        this.userService = userService;
     }
 
     @GetMapping("/films")
-    public String getFilmsPage(Principal principal, Model model) {
-
-        String email = principal.getName();
-        Optional<UserDto> userDtoOptional = userService.userByEmail(email);
-        if (userDtoOptional.isPresent()) {
-            model.addAttribute("user", userDtoOptional.get());
-            model.addAttribute("films", filmService.getAllFilms());
-            return "films";
-        }
-        //TODO страница ошибки
+    public String getFilmsPage(Model model) {
+        model.addAttribute("films", filmService.getAllFilms());
         return "films";
     }
 }

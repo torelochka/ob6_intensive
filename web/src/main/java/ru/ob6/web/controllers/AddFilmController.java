@@ -1,6 +1,7 @@
 package ru.ob6.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,9 @@ public class AddFilmController {
 
     private final FilmService filmService;
 
+    @Value("${upload.dir.image}")
+    private String posterUploadDir;
+
     @Autowired
     public AddFilmController(FilmService filmService) {
         this.filmService = filmService;
@@ -36,14 +40,14 @@ public class AddFilmController {
     public String addFilm(@ModelAttribute @Valid FilmForm filmForm,
                           BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            //TODO Страница ошибки
+            model.addAttribute("filmForm", filmForm);
             return "add_film";
         }
         filmService.saveFilm(
                 FilmDto.builder()
                         .title(filmForm.getTitle())
                         .description(filmForm.getDescription())
-                        .posterName(FileSaver.save(filmForm.getPosterName(), "test"))
+                        .posterName(FileSaver.save(filmForm.getPosterName(), posterUploadDir))
                         .trailerUrl(TrailerUrlParser.parse(filmForm.getTrailerUrl()))
                 .build()
         );

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.forms.SignUpForm;
 import ru.ob6.api.services.MailService;
-import ru.ob6.api.services.UserService;
+import ru.ob6.api.services.SignUpService;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -18,13 +18,11 @@ import java.util.Optional;
 @Controller
 public class SignUpController {
 
-    private final UserService userService;
-    private final MailService mailService;
+    private final SignUpService signUpService;
 
     @Autowired
-    public SignUpController(UserService userService, MailService mailService) {
-        this.userService = userService;
-        this.mailService = mailService;
+    public SignUpController(SignUpService signUpService) {
+        this.signUpService = signUpService;
     }
 
     @GetMapping("/signUp")
@@ -38,29 +36,21 @@ public class SignUpController {
                                  BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("signUpForm", signUpForm);
             return "sign_up";
         }
 
         if (!signUpForm.getPassword().equals(signUpForm.getPasswordAgain())) {
             model.addAttribute("error", "Пароли не совпадают!");
+            model.addAttribute("signUpForm", signUpForm);
             return "sign_up";
         }
 
-        String email = signUpForm.getEmail();
-        if (userService.userByEmail(email).isPresent()) {
+        if (!signUpService.signUp(signUpForm)) {
             model.addAttribute("error", "Пользователь с таким email уже зарегестрирован!");
+            model.addAttribute("signUpForm", signUpForm);
             return "sign_up";
         }
-
-        userService.saveUser(signUpForm);
-
-        Optional<UserDto> userOptional = userService.userByEmail(email);
-        if (!userOptional.isPresent()) {
-            model.addAttribute("error", "Упс...");
-            return "sign_up";
-        }
-
-        mailService.sendEmailForConfirm(email, userOptional.get().getId().toString());
 
         return "redirect:/signIn";
     }

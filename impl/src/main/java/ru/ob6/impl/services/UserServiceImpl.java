@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.forms.SignUpForm;
+import ru.ob6.api.services.MailService;
 import ru.ob6.api.services.UserService;
 import ru.ob6.impl.models.User;
 import ru.ob6.impl.repositories.UserRepository;
@@ -22,40 +23,43 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-
+    private final MailService mailService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public Optional<UserDto> userById(UUID id) {
         Optional<User> userOptional = userRepository.findUserById(id);
-        return userOptional.stream().map(user -> modelMapper.map(user, UserDto.class)).findFirst();
+        return userOptional.map(user -> modelMapper.map(user, UserDto.class));
     }
 
     @Override
     public Optional<UserDto> userByEmail(String email) {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
-        return userOptional.stream().map(user -> modelMapper.map(user, UserDto.class)).findFirst();
+        return userOptional.map(user -> modelMapper.map(user, UserDto.class));
 
     }
 
     @Override
     public void saveUser(SignUpForm signUpForm) {
-        userRepository.save(
+        User user = userRepository.save(
                 User.builder()
                         .email(signUpForm.getEmail())
                         .firstName(signUpForm.getFirstName())
                         .city(signUpForm.getCity())
                         .password(passwordEncoder.encode(signUpForm.getPassword()))
-                        .role(User.Role.ROLE_ADMIN)
-                .build()
+                        .role(User.Role.ROLE_USER)
+                        .build()
         );
+
+        mailService.sendEmailForConfirm(signUpForm.getEmail(), user.getId().toString());
     }
 
     @Override
