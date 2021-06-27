@@ -7,6 +7,7 @@
             <#if user?? && user.role == "ROLE_ADMIN">
                 <#if film.inRent>
                     <a href="/admin/film/${film.id}/rentOff" class="button btn-success btn">Снять с проката</a>
+                    <a href="/admin/film/${film.id}/seance" class="button btn-success btn">Новый сеанс</a>
                 <#else>
                     <a href="/admin/film/${film.id}/rentOn" class="button btn-success btn">Отправить в прокат</a>
                 </#if>

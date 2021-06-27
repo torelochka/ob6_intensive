@@ -8,7 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <#list css as style>
-				<link rel="stylesheet" href="css/${style}">
+				<link rel="stylesheet" href="/css/${style}">
       </#list>
 		<title>${title}</title>
 	</head>
@@ -20,7 +20,7 @@
 	<script src="/js/jquery-3.5.1.min.js"></script>
 	<script src="/js/bootstrap.bundle.js"></script>
   <#list scripts as script>
-		<script src="js/${script}"></script>
+		<script src="/js/${script}"></script>
   </#list>
 	</body>
 	</html>
