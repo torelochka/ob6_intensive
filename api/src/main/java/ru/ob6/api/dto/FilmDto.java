@@ -19,4 +19,6 @@ public class FilmDto {
     private String trailerUrl;
 
     private String posterName;
+
+    private Boolean inRent;
 }

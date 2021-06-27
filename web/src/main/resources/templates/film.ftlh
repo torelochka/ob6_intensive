@@ -5,9 +5,12 @@
             <h1 class="text-center">${film.title}</h1>
             <img src="/dist/img/${film.posterName}" class="card-img-top" alt="...">
             <#if user?? && user.role == "ROLE_ADMIN">
-                <a class="button btn-success btn">Добавить Фильм</a>
+                <#if film.inRent>
+                    <a href="/admin/film/${film.id}/rentOff" class="button btn-success btn">Снять с проката</a>
+                <#else>
+                    <a href="/admin/film/${film.id}/rentOn" class="button btn-success btn">Отправить в прокат</a>
+                </#if>
             </#if>
-        <#--todo добавить возможность снимать с проката-->
             <h2>описание</h2>
             <p>${film.description}</p>
             <h2>Трейлер</h2>

@@ -49,4 +49,23 @@ public class FilmServiceImpl implements FilmService {
                 .build()
         );
     }
+
+    @Override
+    public void rentOn(Long id) {
+        Optional<Film> byId = filmRepository.findById(id);
+        byId.ifPresent(film -> {
+            film.setInRent(true);
+            filmRepository.save(byId.get());
+        });
+
+    }
+
+    @Override
+    public void rentOff(Long id) {
+        Optional<Film> byId = filmRepository.findById(id);
+        byId.ifPresent(film -> {
+            film.setInRent(false);
+            filmRepository.save(byId.get());
+        });
+    }
 }
