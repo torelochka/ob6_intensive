@@ -3,7 +3,7 @@
     <div class="container">
         <h1 class="text-center">Фильмы в прокате</h1>
         <#if user?? && user.role == "ROLE_ADMIN">
-            <a class="button btn-success btn">Добавить Фильм</a>
+            <a href="/admin/film" class="button btn-success btn">Добавить Фильм</a>
         </#if>
         <div class="row">
             <#list films as film>

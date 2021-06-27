@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Постер
-                                                <input name="image" type="file" accept="image/*" required>
+                                                <input name="posterName" type="file" accept="image/*" required>
                                             </label>
                                         </div>
                                         <input type="submit" id="hide-submit" hidden>

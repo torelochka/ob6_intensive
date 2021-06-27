@@ -16,6 +16,7 @@ import ru.ob6.impl.repositories.UserRepository;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 @Component
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -25,13 +26,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final ModelMapper modelMapper;
+    private final ExecutorService executorService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, ModelMapper modelMapper, ExecutorService executorService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
         this.modelMapper = modelMapper;
+        this.executorService = executorService;
     }
 
     @Override
@@ -59,7 +62,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         .build()
         );
 
-        mailService.sendEmailForConfirm(signUpForm.getEmail(), user.getId().toString());
+        executorService.submit(() ->
+                mailService.sendEmailForConfirm(signUpForm.getEmail(), user.getId().toString())
+        );
     }
 
     @Override

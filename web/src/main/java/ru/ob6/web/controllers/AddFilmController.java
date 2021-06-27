@@ -51,6 +51,6 @@ public class AddFilmController {
                         .trailerUrl(TrailerUrlParser.parse(filmForm.getTrailerUrl()))
                 .build()
         );
-        return "films";
+        return "redirect:/films";
     }
 }

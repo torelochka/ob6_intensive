@@ -17,6 +17,7 @@ public class UserDto {
     private String email;
     private String firstName;
     private String city;
+    private Boolean isEmailConfirmed;
     private String role;
     //добавить сеансы забронированные
 }

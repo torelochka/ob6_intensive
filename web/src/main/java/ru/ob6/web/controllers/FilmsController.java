@@ -21,9 +21,10 @@ public class FilmsController {
         this.filmService = filmService;
     }
 
-    @GetMapping("/films")
+    @GetMapping({"/films", "/"})
     public String getFilmsPage(Model model) {
         model.addAttribute("films", filmService.getAllFilms());
+        System.out.println(filmService.getAllFilms());
         return "films";
     }
 }
