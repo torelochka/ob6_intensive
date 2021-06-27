@@ -13,7 +13,8 @@
 				</li>
 			</ul>
         <#if user??>
-			<button class="btn btn-primary my-2 my-sm-0 mx-3" onclick="location.href='/logout'">Logout</button>
+			<button class="btn btn-primary my-2 my-sm-0" onclick="location.href='/profile'">Личный кабинет</button>
+			<button class="btn btn-primary my-2 my-sm-0 mx-3" onclick="location.href='/logout'">Выйти</button>
         <#else>
 					<button class="btn btn-primary my-2 my-sm-0" onclick="location.href='/signIn'">Войти</button>
 					<button class="btn btn-primary my-2 my-sm-0 mx-3" onclick="location.href='/signUp'">Создать</button>

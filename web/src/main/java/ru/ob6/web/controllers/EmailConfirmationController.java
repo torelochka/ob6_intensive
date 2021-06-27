@@ -28,11 +28,10 @@ public class EmailConfirmationController {
             UUID id = UUID.fromString(code);
             if (userService.confirmEmail(id)) {
                 model.addAttribute("success", "Ваша почта подтверждена !");
-                return "email_confirmed";
             } else {
                 model.addAttribute("error", "Не удалось подтвердить почту, неверная ссылка");
-                return "email_confirmed";
             }
+            return "email_confirmed";
         }
         catch (IllegalArgumentException exception) {
             model.addAttribute("error", "Не удалось подтвердить почту, неверная ссылка");

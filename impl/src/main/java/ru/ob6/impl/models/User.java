@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -45,6 +46,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Booking> bookings;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

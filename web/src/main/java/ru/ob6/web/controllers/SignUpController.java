@@ -7,13 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.forms.SignUpForm;
-import ru.ob6.api.services.MailService;
 import ru.ob6.api.services.SignUpService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class SignUpController {

@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SeanceDto {
-    private Long id;
-    private Date date;
-    private FilmDto film;
+public class BookingDto {
+    private int placeNumber;
+    private int rowNumber;
+    private SeanceDto seance;
 }
