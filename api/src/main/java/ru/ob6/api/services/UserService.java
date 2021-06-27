@@ -10,4 +10,5 @@ public interface UserService {
     Optional<UserDto> userById(UUID id);
     Optional<UserDto> userByEmail(String email);
     void saveUser(SignUpForm signUpForm);
+    boolean confirmEmail(UUID id);
 }

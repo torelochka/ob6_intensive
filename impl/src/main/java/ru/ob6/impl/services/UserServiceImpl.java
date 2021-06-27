@@ -1,5 +1,7 @@
 package ru.ob6.impl.services;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Component;
 import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.forms.SignUpForm;
 import ru.ob6.api.services.UserService;
-import ru.ob6.impl.models.Role;
 import ru.ob6.impl.models.User;
 import ru.ob6.impl.repositories.UserRepository;
 
@@ -22,35 +23,51 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     public Optional<UserDto> userById(UUID id) {
         Optional<User> userOptional = userRepository.findUserById(id);
-        return userOptional.map(this::userToUserDto);
+        return userOptional.stream().map(user -> modelMapper.map(user, UserDto.class)).findFirst();
     }
 
     @Override
     public Optional<UserDto> userByEmail(String email) {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
-        return userOptional.map(this::userToUserDto);
+        return userOptional.stream().map(user -> modelMapper.map(user, UserDto.class)).findFirst();
 
     }
 
     @Override
     public void saveUser(SignUpForm signUpForm) {
         userRepository.save(
-                new User(
-                        signUpForm.getEmail(),
-                        signUpForm.getFirstName(),
-                        signUpForm.getCity(),
-                        passwordEncoder.encode(signUpForm.getPassword()),
-                        new Role(1L, "ROLE_USER")
-                )
+                User.builder()
+                        .email(signUpForm.getEmail())
+                        .firstName(signUpForm.getFirstName())
+                        .city(signUpForm.getCity())
+                        .password(passwordEncoder.encode(signUpForm.getPassword()))
+                        .role(User.Role.ROLE_ADMIN)
+                .build()
         );
+    }
+
+    @Override
+    public boolean confirmEmail(UUID id) {
+        Optional<User> userOptional = userRepository.findUserById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setEmailConfirmed(true);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -60,14 +77,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return user.get();
         }
         else throw new UsernameNotFoundException("User not found");
-    }
-
-    private UserDto userToUserDto(User user) {
-        return UserDto.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .email(user.getEmail())
-                .city(user.getCity())
-                .build();
     }
 }

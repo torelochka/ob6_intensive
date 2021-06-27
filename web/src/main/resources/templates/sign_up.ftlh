@@ -43,7 +43,7 @@
                                         </div>
                                         <input type="submit" id="hide-submit" hidden>
                                         <button class="btn btn-primary btn-lg btn-block waves-effect waves-light"
-                                                id="submit">Создать
+                                                id="submit" type="submit">Создать
                                         </button>
                                     </form>
                                     <hr>

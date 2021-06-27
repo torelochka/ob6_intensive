@@ -15,7 +15,7 @@
                                         <h4 class="alert alert-danger" id="error-message">${error}</h4>
                                     </#if>
                                     <@spring.bind "filmForm"/>
-                                    <form action="/signUp" autocomplete="off" method="post" id="form" enctype="multipart/form-data">
+                                    <form action="/admin/film" autocomplete="off" method="post" id="form" enctype="multipart/form-data">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                         <div class="form-group">
                                             <span class="text-black-50">Название</span>

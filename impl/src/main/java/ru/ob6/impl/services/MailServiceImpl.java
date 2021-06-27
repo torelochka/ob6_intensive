@@ -22,15 +22,15 @@ import java.util.Map;
 @Component
 public class MailServiceImpl implements MailService {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String mailFrom;
 
     private final Template confirmMailTemplate;
 
-    public MailServiceImpl() {
+    @Autowired
+    public MailServiceImpl(JavaMailSender javaMailSender) {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateLoader(
@@ -42,7 +42,9 @@ public class MailServiceImpl implements MailService {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+        this.javaMailSender = javaMailSender;
     }
+
     @Override
     public void sendEmailForConfirm(String email, String code) {
         String mailText = getEmailText(code);
@@ -53,14 +55,13 @@ public class MailServiceImpl implements MailService {
     }
 
     private MimeMessagePreparator getEmail(String email, String mailText) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
+        return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(mailFrom);
             messageHelper.setTo(email);
             messageHelper.setSubject("Регистрация");
             messageHelper.setText(mailText, true);
         };
-        return messagePreparator;
     }
 
     private String getEmailText(String code) {

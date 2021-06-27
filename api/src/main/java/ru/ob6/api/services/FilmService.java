@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface FilmService {
     List<FilmDto> getAllFilms();
-
     Optional<FilmDto> findById(Long id);
+    void saveFilm(FilmDto filmDto);
 }

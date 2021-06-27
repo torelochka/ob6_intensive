@@ -11,7 +11,7 @@ import java.util.UUID;
 public class FileSaver {
     public static String save(MultipartFile file, String directory) {
         try {
-            String file_name = UUID.randomUUID().toString() +
+            String file_name = UUID.randomUUID() +
                     "-" +
                     file.getOriginalFilename();
 

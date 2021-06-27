@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.ob6.web.security.handlers.SuccessAuthHandler;
 
@@ -16,15 +15,18 @@ import ru.ob6.web.security.handlers.SuccessAuthHandler;
 @EnableWebSecurity
 public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    private final SuccessAuthHandler successAuthHandler;
+
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    private SuccessAuthHandler successAuthHandler;
-
-    @Autowired
-    @Qualifier("UserDetailsServiceImpl")
-    private UserDetailsService userDetailsService;
+    public GlobalSecurityConfig(PasswordEncoder passwordEncoder, SuccessAuthHandler successAuthHandler, @Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService) {
+        this.passwordEncoder = passwordEncoder;
+        this.successAuthHandler = successAuthHandler;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
