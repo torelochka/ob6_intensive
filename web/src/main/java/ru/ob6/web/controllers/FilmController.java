@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.ob6.api.dto.FilmDto;
 import ru.ob6.api.services.FilmService;
+import ru.ob6.api.services.SeanceService;
+import ru.ob6.impl.models.Film;
 
 import java.util.Optional;
 
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class FilmController {
 
     private final FilmService filmService;
+    private final SeanceService seanceService;
 
     @Autowired
-    public FilmController(FilmService filmService) {
+    public FilmController(FilmService filmService, SeanceService seanceService) {
         this.filmService = filmService;
+        this.seanceService = seanceService;
     }
 
     @GetMapping("/film/{id}")
@@ -26,8 +30,10 @@ public class FilmController {
 
         if (filmDtoById.isPresent()) {
             model.addAttribute("film", filmDtoById.get());
+            model.addAttribute("seances", seanceService.findByFilmId(id));
         } else {
-            model.addAttribute("film", null);
+            model.addAttribute("film", new FilmDto());
+            model.addAttribute("error", "Фильм не найден");
         }
 
         return "film";

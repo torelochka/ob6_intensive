@@ -7,7 +7,7 @@ flatpickr.localize(flatpickr.l10ns.ru);
 
     $("#date").flatpickr({
         minDate: new Date(),
-        dateFormat: 'Y-m-d',
+        enableTime: true
     })
 
 })(jQuery);
