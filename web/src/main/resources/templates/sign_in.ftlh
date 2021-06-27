@@ -27,10 +27,6 @@
                                             <input id="password-signin" type="password" class="form-control"
                                                    name="password" required>
                                         </div>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="rememberMe">
-                                            <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
-                                        </div>
                                         <button id='submit'
                                                 class="btn btn-primary btn-lg btn-block waves-effect waves-light"
                                                 type="submit">
