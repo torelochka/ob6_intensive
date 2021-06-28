@@ -1,26 +1,30 @@
 package ru.ob6.impl.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-public class Seance {
+public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date date;
+    private int placeNumber;
+    private int rowNumber;
 
     @ManyToOne
-    private Film film;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name = "seance_id", referencedColumnName = "id")
+    private Seance seance;
+
 }

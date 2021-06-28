@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.forms.SignUpForm;
+import ru.ob6.api.forms.UserDataForm;
 import ru.ob6.api.services.MailService;
 import ru.ob6.api.services.UserService;
 import ru.ob6.impl.models.User;
@@ -77,6 +78,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void saveNewUserData(UserDataForm userDataForm) {
+        Optional<User> userOptional = userRepository.findUserByEmail(userDataForm.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setFirstName(userDataForm.getFirstName());
+            user.setCity(userDataForm.getCity());
+            if (!userDataForm.getPassword().equals("")) {
+                user.setPassword(passwordEncoder.encode(userDataForm.getPassword()));
+            }
+            userRepository.save(user);
+        }
     }
 
     @Override

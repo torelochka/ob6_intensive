@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -12,12 +13,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-
     private UUID id;
     private String email;
     private String firstName;
     private String city;
     private Boolean isEmailConfirmed;
     private String role;
-    //добавить сеансы забронированные
+    private String password;
+    private List<SeanceDto> seances;
 }
