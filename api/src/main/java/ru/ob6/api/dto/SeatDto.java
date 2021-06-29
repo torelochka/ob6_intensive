@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookingDto {
-    private SeatDto seat;
-    private SeanceDto seance;
+public class SeatDto {
+    private Integer row;
+    private Integer column;
 }

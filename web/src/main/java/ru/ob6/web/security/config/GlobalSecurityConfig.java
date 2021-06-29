@@ -43,6 +43,7 @@ public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
                     .ignoringAntMatchers("/api/**").and()
                 .authorizeRequests()
                     .antMatchers("/profile", "/updateProfile").authenticated()
+                    .antMatchers("/booking/**").hasAuthority("ROLE_USER")
                     .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").and()
                 .formLogin()
                     .loginPage("/signIn")

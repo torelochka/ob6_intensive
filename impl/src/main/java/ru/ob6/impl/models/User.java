@@ -42,13 +42,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isEmailConfirmed = false;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Booking> bookings;
+
     @Builder.Default
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Booking> bookings;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

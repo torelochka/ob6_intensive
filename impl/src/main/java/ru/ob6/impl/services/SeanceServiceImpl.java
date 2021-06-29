@@ -51,7 +51,13 @@ public class SeanceServiceImpl implements SeanceService {
     @Override
     public List<TakenSeats> getTakenSeanceSeats(Long seanceId) {
         return seatRepository.findTakenSeanceSeats(seanceId).stream()
-                .map(seat -> new TakenSeats(seat.getRow() + "," + seat.getColumn()))
+                .map(seat -> new TakenSeats(seat.getRow() + ";" + seat.getColumn()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public SeanceDto findById(Long seanceId) {
+        return seanceRepository.findById(seanceId)
+                .map(seance -> modelMapper.map(seance, SeanceDto.class)).get();
     }
 }

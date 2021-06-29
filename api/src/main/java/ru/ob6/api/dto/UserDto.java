@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,5 +21,6 @@ public class UserDto {
     private Boolean isEmailConfirmed;
     private String role;
     private String password;
+    private Set<BookingDto> bookings;
     private List<SeanceDto> seances;
 }

@@ -1,6 +1,9 @@
 <#import "layouts/base.ftlh" as base>
 <@base.mainMacro title="Фильмы" css=["seats.css"] scripts=["seats.js"]>
     <div class="container">
+        <#if errorBooking??>
+            <h4 class="alert alert-danger" id="error-message">${errorBooking}</h4>
+        </#if>
         <#if error??>
             <h4 class="alert alert-danger" id="error-message">${error}</h4>
         </#if>
@@ -26,30 +29,42 @@
             <div class="row">
                 <#list seances as seance>
                     <div class="col">
-                        <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal" data-target="#exampleModal">${seance.date}</a>
+                        <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal"
+                           data-target="#exampleModal">${seance.date}</a>
                     </div>
                 </#list>
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Доступные места</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeTable()">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                    <form action="/booking/${film.id}" method="post" id="form">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Доступные места</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                        onclick="closeTable()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body table" id="modal-body">
+                                <table id="modal-body-table">
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        onclick="closeTable()">Закрыть
+                                </button>
+                                <#if user?? && user.role == "ROLE_ADMIN">
+                                <#--<#if user?? && false>-->
+                                <#else>
+                                    <button type="submit" class="btn btn-primary">Забронировать</button>
+                                </#if>
+                            </div>
                         </div>
-                        <div class="modal-body table" id="modal-body">
-                            <table id="modal-body-table">
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeTable()">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         <#else>

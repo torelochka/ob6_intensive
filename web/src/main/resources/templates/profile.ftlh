@@ -32,7 +32,7 @@
         </form>
         <#if user?? && user.role == "ROLE_USER">
             <h3>Забронированные билеты</h3>
-            <#if bookings??>
+            <#if userDataForm??>
                 <#list bookings as booking>
                     <ul class="list-group">
                         <li class="list-group-item mt-2 mb-2">

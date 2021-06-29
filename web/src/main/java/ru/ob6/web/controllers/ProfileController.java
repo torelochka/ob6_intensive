@@ -28,9 +28,7 @@ public class ProfileController {
     @GetMapping("/profile")
     public String getCabinetPage(Model model, Authentication authentication) {
         String email = authentication.getName();
-        model.addAttribute("userDataForm", userService.userByEmail(email));
-        // TODO: 28.06.2021 брать букинги из юзера 
-        model.addAttribute("bookings", bookingService.getAllBookingsByUserEmail(email));
+        model.addAttribute("userDataForm", userService.userByEmail(email).get());
         return "profile";
     }
 
