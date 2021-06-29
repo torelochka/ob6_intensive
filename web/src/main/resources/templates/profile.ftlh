@@ -33,13 +33,13 @@
         <#if user?? && user.role == "ROLE_USER">
             <h3>Забронированные билеты</h3>
             <#if userDataForm??>
-                <#list bookings as booking>
+                <#list userDataForm.bookings as booking>
                     <ul class="list-group">
                         <li class="list-group-item mt-2 mb-2">
                             <h5 class="card-title">${booking.seance.film.title}</h5>
                             <p class="card-text">${booking.seance.date?datetime}</p>
-                            <p class="card-text">Ряд №${booking.rowNumber}</p>
-                            <p class="card-text">Место №${booking.placeNumber}</p>
+                            <p class="card-text">Ряд №${booking.seat.row}</p>
+                            <p class="card-text">Место №${booking.seat.column}</p>
                         </li>
                     </ul>
                 </#list>
