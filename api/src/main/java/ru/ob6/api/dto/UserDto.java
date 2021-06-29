@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserDto {
     private UUID id;
     private String email;
@@ -19,6 +19,5 @@ public class UserDto {
     private String city;
     private Boolean isEmailConfirmed;
     private String role;
-    private String password;
     private List<SeanceDto> seances;
 }

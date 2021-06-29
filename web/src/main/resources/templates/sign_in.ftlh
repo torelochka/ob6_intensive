@@ -1,4 +1,3 @@
-
 <#import "layouts/base.ftlh" as base>
 <@base.mainMacro title="Авторизация" css=["error.css"] >
     <main>
@@ -34,7 +33,7 @@
                                         </button>
                                     </form>
                                     <hr>
-                                    <#--<p><a href="/repass" class="text-secondary">Forgot password?</a></p>-->
+                                    <p><a href="/repass" class="text-secondary">Забыли пароль?</a></p>
                                     <p><a href="/signUp" class="text-secondary">Регистрация</a></p>
                                 </div>
                             </div>

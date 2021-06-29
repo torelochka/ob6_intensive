@@ -5,12 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -19,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     //region Fields
     @Id
@@ -46,41 +42,6 @@ public class User implements UserDetails {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Booking> bookings;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> roles = new ArrayList<>();
-        roles.add(role);
-        return roles;
-    }
-
-    @Override
-    public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isEmailConfirmed();
-    }
 
     public enum Role implements GrantedAuthority{
         ROLE_USER, ROLE_ADMIN;

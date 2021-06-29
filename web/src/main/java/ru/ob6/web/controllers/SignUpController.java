@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.ob6.api.forms.SignUpForm;
 import ru.ob6.api.services.SignUpService;
@@ -29,26 +28,28 @@ public class SignUpController {
     }
 
     @PostMapping("/signUp")
-    public String postSignInForm(@ModelAttribute("form") @Valid SignUpForm signUpForm,
+    public String postSignInForm(@Valid SignUpForm signUpForm,
                                  BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("signUpForm", signUpForm);
             return "sign_up";
         }
-
-        if (!signUpForm.getPassword().equals(signUpForm.getPasswordAgain())) {
-            model.addAttribute("error", "Пароли не совпадают!");
-            model.addAttribute("signUpForm", signUpForm);
-            return "sign_up";
+        else {
+            if (!signUpForm.getPassword().equals(signUpForm.getPasswordAgain())) {
+                model.addAttribute("error", "Пароли не совпадают!");
+                model.addAttribute("signUpForm", signUpForm);
+                return "sign_up";
+            }
+            if (!signUpService.signUp(signUpForm)) {
+                model.addAttribute("error", "Пользователь с таким email уже зарегестрирован!");
+                model.addAttribute("signUpForm", signUpForm);
+                return "sign_up";
+            }
+            else {
+                model.addAttribute("email", signUpForm.getEmail());
+                return "sign_up_success";
+            }
         }
-
-        if (!signUpService.signUp(signUpForm)) {
-            model.addAttribute("error", "Пользователь с таким email уже зарегестрирован!");
-            model.addAttribute("signUpForm", signUpForm);
-            return "sign_up";
-        }
-
-        return "redirect:/signIn";
     }
 }

@@ -1,6 +1,8 @@
 package ru.ob6.api.services;
 
 import ru.ob6.api.dto.UserDto;
+import ru.ob6.api.forms.EmailForm;
+import ru.ob6.api.forms.ForgotPasswordForm;
 import ru.ob6.api.forms.SignUpForm;
 import ru.ob6.api.forms.UserDataForm;
 
@@ -13,4 +15,6 @@ public interface UserService {
     void saveUser(SignUpForm signUpForm);
     boolean confirmEmail(UUID id);
     void saveNewUserData(UserDataForm userDataForm);
+    void resetPassword(EmailForm emailForm);
+    boolean changePassword(ForgotPasswordForm forgotPasswordForm);
 }
