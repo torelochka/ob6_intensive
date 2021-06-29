@@ -39,8 +39,10 @@ public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf()
+                    .ignoringAntMatchers("/api/**").and()
                 .authorizeRequests()
-                    .antMatchers("/profile").authenticated()
+                    .antMatchers("/profile", "/updateProfile").authenticated()
                     .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").and()
                 .formLogin()
                     .loginPage("/signIn")

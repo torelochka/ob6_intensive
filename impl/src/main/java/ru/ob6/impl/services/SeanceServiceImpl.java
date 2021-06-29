@@ -4,11 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ob6.api.dto.SeanceDto;
+import ru.ob6.api.dto.TakenSeats;
 import ru.ob6.api.forms.SeanceForm;
 import ru.ob6.api.services.SeanceService;
 import ru.ob6.impl.models.Seance;
 import ru.ob6.impl.repositories.FilmRepository;
 import ru.ob6.impl.repositories.SeanceRepository;
+import ru.ob6.impl.repositories.SeatRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,12 +20,14 @@ public class SeanceServiceImpl implements SeanceService {
 
     private final SeanceRepository seanceRepository;
     private final FilmRepository filmRepository;
+    private final SeatRepository seatRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SeanceServiceImpl(SeanceRepository seanceRepository, FilmRepository filmRepository, ModelMapper modelMapper) {
+    public SeanceServiceImpl(SeanceRepository seanceRepository, FilmRepository filmRepository, SeatRepository seatRepository, ModelMapper modelMapper) {
         this.seanceRepository = seanceRepository;
         this.filmRepository = filmRepository;
+        this.seatRepository = seatRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -41,6 +45,13 @@ public class SeanceServiceImpl implements SeanceService {
     public List<SeanceDto> findByFilmId(Long id) {
         return seanceRepository.findAllByFilmId(id)
                 .stream().map(f -> modelMapper.map(f, SeanceDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TakenSeats> getTakenSeanceSeats(Long seanceId) {
+        return seatRepository.findTakenSeanceSeats(seanceId).stream()
+                .map(seat -> new TakenSeats(seat.getRow() + "," + seat.getColumn()))
                 .collect(Collectors.toList());
     }
 }
