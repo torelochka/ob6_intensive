@@ -12,6 +12,7 @@ import java.util.UUID;
 public interface UserService {
     Optional<UserDto> userById(UUID id);
     Optional<UserDto> userByEmail(String email);
+    Optional<UserDataForm> userDataByEmail(String email);
     void saveUser(SignUpForm signUpForm);
     boolean confirmEmail(UUID id);
     void saveNewUserData(UserDataForm userDataForm);

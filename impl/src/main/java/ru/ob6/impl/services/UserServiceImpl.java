@@ -51,6 +51,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserDataForm> userDataByEmail(String email) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        return userOptional.map(user -> modelMapper.map(user, UserDataForm.class));
+    }
+
+    @Override
     public void saveUser(SignUpForm signUpForm) {
         User user = userRepository.save(
                 User.builder()

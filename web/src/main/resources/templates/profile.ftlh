@@ -3,14 +3,14 @@
 <@base.mainMacro title="Личный кабинет" css=["error.css"] >
     <div class="container">
         <h1 class="text-center">Личный кабинет</h1>
-        <@spring.bind "userDataForm"/>
         <div class="form-group">
             <span class="text-black-50 disabled">Email</span>
             <input class='form-control' required disabled value="${user.email}">
         </div>
-        <form action="/updateProfile" autocomplete="off" method="post" id="form">
+        <@spring.bind "userDataForm"/>
+        <form action="/updateProfile" autocomplete="off" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <@spring.formHiddenInput "userDataForm.email" "class='form-control' required"/>
+            <@spring.formHiddenInput "userDataForm.email"/>
             <div class="form-group">
                 <span class="text-black-50">Имя</span>
                 <@spring.formInput "userDataForm.firstName" "class='form-control' required"/>

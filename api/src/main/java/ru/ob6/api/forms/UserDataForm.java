@@ -22,7 +22,7 @@ public class UserDataForm {
     @NotBlank(message = "Город не может быть пустым")
     private String city;
 
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$", message = "Пароль слишком простой")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$|^\\s*$", message = "Пароль слишком простой")
     private String password;
 
 }
