@@ -17,11 +17,15 @@ import java.io.IOException;
 @Component
 public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private ModelMapper modelMapper;
+    public SuccessAuthHandler(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         HttpSession session = httpServletRequest.getSession();
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

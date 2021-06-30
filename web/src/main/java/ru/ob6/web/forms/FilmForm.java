@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import ru.ob6.web.validation.YouTubeUrl;
 
 import javax.validation.constraints.NotBlank;
 
@@ -21,6 +22,7 @@ public class FilmForm {
     private String description;
 
     @NotBlank
+    @YouTubeUrl
     private String trailerUrl;
 
     private MultipartFile posterName;

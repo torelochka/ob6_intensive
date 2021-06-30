@@ -68,4 +68,10 @@ public class FilmServiceImpl implements FilmService {
             filmRepository.save(byId.get());
         });
     }
+
+    @Override
+    public List<FilmDto> findFilms(String search) {
+        return filmRepository.getSearchFilms("%" + search + "", search).stream()
+                .map(f -> modelMapper.map(f, FilmDto.class)).collect(Collectors.toList());
+    }
 }

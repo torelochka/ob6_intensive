@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.ob6.api.dto.UserDto;
 import ru.ob6.api.services.FilmService;
 import ru.ob6.api.services.UserService;
+import ru.ob6.web.forms.FilmSearchForm;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class FilmsController {
 
     @GetMapping({"/films", "/"})
     public String getFilmsPage(Model model) {
+        model.addAttribute("filmSearchForm", new FilmSearchForm());
         model.addAttribute("films", filmService.getAllFilms());
         System.out.println(filmService.getAllFilms());
         return "films";
