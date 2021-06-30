@@ -27,8 +27,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String getCabinetPage(Model model, Authentication authentication) {
-        String email = authentication.getName();
-        model.addAttribute("userDataForm", userService.userByEmail(email).get());
+        model.addAttribute("userDataForm", userService.userByEmail(authentication.getName()));
         return "profile";
     }
 

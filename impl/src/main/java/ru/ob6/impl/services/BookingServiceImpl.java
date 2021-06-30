@@ -37,9 +37,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookingsByUserEmail(String email) {
+
         Optional<User> optionalUser = userRepository.findUserByEmail(email);
         if (optionalUser.isPresent()) {
-            Set<Booking> bookings = optionalUser.get().getBookings();
+            Set<Booking> bookings = bookingRepository.findBookingsByUser(optionalUser.get());
             return bookings.stream().map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
         }
         else return null;
