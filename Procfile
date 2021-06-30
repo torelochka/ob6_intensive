@@ -1,0 +1,1 @@
+java -Dserver.port=$PORT $JAVA_OPTS -jar target/insurance-0.1.jar

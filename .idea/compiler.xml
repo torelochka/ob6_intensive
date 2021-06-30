@@ -17,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="-parameters" />
       <module name="impl" options="-parameters" />
+      <module name="ob6_intensive" options="-parameters" />
       <module name="web" options="-parameters" />
     </option>
   </component>
