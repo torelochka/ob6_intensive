@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.ob6.api.forms.UserDataForm;
+import ru.ob6.api.services.BookingService;
 import ru.ob6.api.services.UserService;
 
 import javax.validation.Valid;
@@ -16,15 +17,18 @@ import javax.validation.Valid;
 public class ProfileController {
 
     private final UserService userService;
+    private final BookingService bookingService;
 
     @Autowired
-    public ProfileController(UserService userService) {
+    public ProfileController(UserService userService, BookingService bookingService) {
         this.userService = userService;
+        this.bookingService = bookingService;
     }
 
     @GetMapping("/profile")
     public String getCabinetPage(Model model, Authentication authentication) {
         model.addAttribute("userDataForm", userService.userDataByEmail(authentication.getName()));
+        model.addAttribute("bookings", bookingService.getAllBookingsByUserEmail(authentication.getName()));
         return "profile";
     }
 

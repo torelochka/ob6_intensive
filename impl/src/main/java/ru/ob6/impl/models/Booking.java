@@ -20,7 +20,6 @@ public class Booking {
 
     @ManyToOne
     @EqualsAndHashCode.Exclude
-    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne

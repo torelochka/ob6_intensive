@@ -19,6 +19,6 @@
 <body>
 <h1>Ссылка на регистрацию:</h1>
             <h3>ob6-intensive</h3>
-<h2><a href="http://localhost:8080/confirm/${confirm_code}">Пройдите по ссылке</a></h2>
+<h2><a href="http://45.84.225.161/confirm/${confirm_code}">Пройдите по ссылке</a></h2>
 </body>
 </html>

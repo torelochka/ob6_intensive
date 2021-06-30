@@ -18,7 +18,7 @@
                     <a href="/admin/film/${film.id}/rentOn" class="button btn-success btn">Отправить в прокат</a>
                 </#if>
             </#if>
-            <h2>описание</h2>
+            <h2>Описание</h2>
             <p>${film.description}</p>
             <h2>Трейлер</h2>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/${film.trailerUrl}"
@@ -27,12 +27,14 @@
                     allowfullscreen></iframe>
             <h2>Доступные сеансы</h2>
             <div class="row">
-                <#list seances as seance>
-                    <div class="col">
-                        <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal"
-                           data-target="#exampleModal">${seance.date}</a>
-                    </div>
-                </#list>
+                <#if film.inRent>
+                    <#list seances as seance>
+                        <div class="col">
+                            <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal"
+                               data-target="#exampleModal">${seance.date}</a>
+                        </div>
+                    </#list>
+                </#if>
             </div>
 
             <!-- Modal -->

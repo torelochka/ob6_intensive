@@ -35,7 +35,7 @@ public class SeanceServiceImpl implements SeanceService {
     public void createSeance(SeanceForm seanceForm) {
         Seance seance = Seance.builder()
                 .date(seanceForm.getDate())
-                .film(filmRepository.getById(seanceForm.getFilmId()))
+                .film(filmRepository.findById(seanceForm.getFilmId()).get())
                 .build();
 
         seanceRepository.save(seance);

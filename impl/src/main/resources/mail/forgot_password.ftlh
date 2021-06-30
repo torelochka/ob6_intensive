@@ -19,6 +19,6 @@
 <body>
 <h1>Ссылка для восстановления пароля:</h1>
 <h3>ob6-intensive</h3>
-<h2><a href="http://localhost:80/repass/${password_code}">Пройдите по ссылке для восстановления пароля</a></h2>
+<h2><a href="http://45.84.225.161/repass/${password_code}">Пройдите по ссылке для восстановления пароля</a></h2>
 </body>
 </html>

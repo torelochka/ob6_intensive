@@ -790,7 +790,7 @@ true posixrules
     <database id="2" parent="1" name="ob6_intensive">
       <ObjectId>16409</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2648</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2956</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16580|16582|1
 sequence|table|16600|16602|1
@@ -898,7 +898,7 @@ default_transaction_read_only=off</Config>
       <Comment>standard public schema</Comment>
       <StateNumber>527</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>2649</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2957</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="24" parent="2" name="heap">

@@ -33,7 +33,7 @@
         <#if user?? && user.role == "ROLE_USER">
             <h3>Забронированные билеты</h3>
             <#if userDataForm??>
-                <#list userDataForm.bookings as booking>
+                <#list bookings as booking>
                     <ul class="list-group">
                         <li class="list-group-item mt-2 mb-2">
                             <h5 class="card-title">${booking.seance.film.title}</h5>

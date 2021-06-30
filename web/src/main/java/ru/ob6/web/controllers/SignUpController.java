@@ -42,7 +42,7 @@ public class SignUpController {
                 return "sign_up";
             }
             if (!signUpService.signUp(signUpForm)) {
-                model.addAttribute("error", "Пользователь с таким email уже зарегестрирован!");
+                model.addAttribute("error", "Пользователь с таким email уже зарегистрирован!");
                 model.addAttribute("signUpForm", signUpForm);
                 return "sign_up";
             }
