@@ -1,1 +1,1 @@
-java -Dserver.port=$PORT $JAVA_OPTS -jar target/insurance-0.1.jar
+web: java -Dserver.port=$PORT -jar $PATH_TO_JAR

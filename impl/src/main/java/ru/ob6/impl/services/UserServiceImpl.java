@@ -2,12 +2,11 @@ package ru.ob6.impl.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.ob6.api.dto.UserDto;
+import ru.ob6.api.forms.EmailForm;
+import ru.ob6.api.forms.ForgotPasswordForm;
 import ru.ob6.api.forms.SignUpForm;
 import ru.ob6.api.forms.UserDataForm;
 import ru.ob6.api.services.MailService;
@@ -20,7 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 
 @Component
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -49,6 +48,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
         return userOptional.map(user -> modelMapper.map(user, UserDto.class));
 
+    }
+
+    @Override
+    public Optional<UserDataForm> userDataByEmail(String email) {
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        return userOptional.map(user -> modelMapper.map(user, UserDataForm.class));
     }
 
     @Override
@@ -85,8 +90,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Optional<User> userOptional = userRepository.findUserByEmail(userDataForm.getEmail());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setFirstName(userDataForm.getFirstName());
-            user.setCity(userDataForm.getCity());
+            if (!user.getFirstName().equals(userDataForm.getFirstName())) {
+                user.setFirstName(userDataForm.getFirstName());
+            }
+            if (!user.getCity().equals(userDataForm.getCity())) {
+                user.setCity(userDataForm.getCity());
+            }
             if (!userDataForm.getPassword().equals("")) {
                 user.setPassword(passwordEncoder.encode(userDataForm.getPassword()));
             }
@@ -95,11 +104,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findUserByEmail(email);
-        if (user.isPresent()) {
-            return user.get();
+    public void resetPassword(EmailForm emailForm) {
+        Optional<User> userOptional = userRepository.findUserByEmail(emailForm.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            executorService.submit(() ->
+                    mailService.sendEmailForResetPassword(user.getEmail(), user.getId().toString())
+            );
         }
-        else throw new UsernameNotFoundException("User not found");
+    }
+
+    @Override
+    public boolean changePassword(ForgotPasswordForm forgotPasswordForm) {
+        Optional<User> userOptional = userRepository.findUserByEmail(forgotPasswordForm.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(forgotPasswordForm.getPassword()));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

@@ -1,6 +1,6 @@
 <#import "layouts/base.ftlh" as base>
 <#import "spring.ftl" as spring/>
-<@base.mainMacro title="Регистрация">
+<@base.mainMacro title="Регистрация" css=["error.css"]>
     <main>
         <div class="container">
             <section class="mt-5 mb-4">
@@ -15,7 +15,7 @@
                                         <h4 class="alert alert-danger" id="error-message">${error}</h4>
                                     </#if>
                                     <@spring.bind "signUpForm"/>
-                                    <form action="/signUp" autocomplete="off" method="post" id="form">
+                                    <form action="/signUp" autocomplete="off" method="post">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                         <div class="form-group">
                                             <span class="text-black-50">Email</span>
@@ -41,7 +41,6 @@
                                             <span class="text-black-50">Повторите пароль</span>
                                             <@spring.formPasswordInput "signUpForm.passwordAgain" "class='form-control' required "/>
                                         </div>
-                                        <input type="submit" id="hide-submit" hidden>
                                         <button class="btn btn-primary btn-lg btn-block waves-effect waves-light"
                                                 id="submit" type="submit">Создать
                                         </button>
