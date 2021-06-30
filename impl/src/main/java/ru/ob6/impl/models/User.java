@@ -38,6 +38,9 @@ public class User {
     @Column(nullable = false)
     private boolean isEmailConfirmed = false;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Booking> bookings;
+
     @Builder.Default
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

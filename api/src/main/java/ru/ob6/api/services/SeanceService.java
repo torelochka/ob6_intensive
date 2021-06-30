@@ -12,4 +12,6 @@ public interface SeanceService {
     List<SeanceDto> findByFilmId(Long id);
 
     List<TakenSeats> getTakenSeanceSeats(Long seanceId);
+
+    SeanceDto findById(Long seanceId);
 }
