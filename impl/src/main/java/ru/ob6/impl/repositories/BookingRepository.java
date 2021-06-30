@@ -1,16 +1,13 @@
 package ru.ob6.impl.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.ob6.impl.models.Booking;
-import ru.ob6.impl.models.User;
-
-import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.ob6.impl.models.Booking;
-import ru.ob6.impl.models.Seance;
-import ru.ob6.impl.models.Seat;
+import ru.ob6.impl.models.User;
+
+import java.util.Set;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
