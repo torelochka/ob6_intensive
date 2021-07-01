@@ -71,7 +71,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<FilmDto> findFilms(String search) {
-        return filmRepository.getSearchFilms("%" + search + "", search).stream()
+        return filmRepository.getSearchFilms("%" + search.toLowerCase() + "%").stream()
                 .map(f -> modelMapper.map(f, FilmDto.class)).collect(Collectors.toList());
     }
 }

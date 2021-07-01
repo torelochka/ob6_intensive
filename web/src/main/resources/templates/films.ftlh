@@ -9,7 +9,7 @@
                 <a href="/admin/film" class="button btn-success btn mx-auto">Добавить Фильм</a>
             </#if>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <@spring.formInput "filmSearchForm.search" "class='form-control rounded mx-2' placeholder='Поиск'"/>
+            <@spring.formInput "filmSearchForm.search" "class='form-control rounded mx-2' placeholder='Поиск' required"/>
             <button type="submit" class="btn btn-primary mx-auto">
                 <i class="fas fa-search"></i>
             </button>
