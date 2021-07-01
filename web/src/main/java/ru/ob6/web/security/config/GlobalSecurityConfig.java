@@ -42,6 +42,7 @@ public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                     .ignoringAntMatchers("/api/**").and()
                 .authorizeRequests()
+                    .antMatchers("/films/search").permitAll()
                     .antMatchers("/profile", "/updateProfile").authenticated()
                     .antMatchers("/booking/**").hasAuthority("ROLE_USER")
                     .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").and()
