@@ -31,9 +31,10 @@ public class FileSystemStorageService {
 			}
 			Path path = Paths.get(rootLocation);
 			UUID name = UUID.randomUUID();
-			String filename =  file.getOriginalFilename() + name;
+			String filename =  file.getName() + name;
+			//TODO проверить как записывает в бд
 			Path destinationFile = path.resolve(
-					Paths.get(file.getOriginalFilename() + name))
+					Paths.get(file.getName() + name))
 					.normalize().toAbsolutePath();
 			if (!destinationFile.getParent().equals(path.toAbsolutePath())) {
 				// This is a security check

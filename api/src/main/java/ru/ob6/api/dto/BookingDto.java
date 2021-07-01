@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BookingDto {
+    private Long id;
     private SeatDto seat;
     private SeanceDto seance;
 }

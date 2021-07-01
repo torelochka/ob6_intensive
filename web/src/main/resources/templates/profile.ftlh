@@ -40,6 +40,7 @@
                             <p class="card-text">${booking.seance.date?datetime}</p>
                             <p class="card-text">Ряд №${booking.seat.row}</p>
                             <p class="card-text">Место №${booking.seat.column}</p>
+                            <a class="btn btn-primary" href="/booking/reset/${booking.id}">Отменить бронь</a>
                         </li>
                     </ul>
                 </#list>

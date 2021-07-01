@@ -27,14 +27,12 @@
                     allowfullscreen></iframe>
             <h2>Доступные сеансы</h2>
             <div class="row">
-                <#if film.inRent>
-                    <#list seances as seance>
-                        <div class="col">
-                            <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal"
-                               data-target="#exampleModal">${seance.date}</a>
-                        </div>
-                    </#list>
-                </#if>
+                <#list seances as seance>
+                    <div class="col">
+                        <a href="${seance.id}" class="btn btn-primary seance-button" data-toggle="modal"
+                           data-target="#exampleModal">${seance.date}</a>
+                    </div>
+                </#list>
             </div>
 
             <!-- Modal -->

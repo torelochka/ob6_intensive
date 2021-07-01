@@ -49,7 +49,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Boolean bookingSeat(BookingDto booking, UUID user) {
         Seat seat = seatRepository.findAllByRowAndColumn(booking.getSeat().getRow(), booking.getSeat().getColumn());
+        System.out.println(seat);
         Seance seance = modelMapper.map(booking.getSeance(), Seance.class);
+        System.out.println(seat.getId());
+        System.out.println(seance.getId());
         if (!bookingRepository.existBookingBySeatAndSeance(seat.getId(), seance.getId())) {
             Booking newBooking = Booking.builder()
                     .seance(seance)
@@ -61,5 +64,11 @@ public class BookingServiceImpl implements BookingService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void cancelBooking(UUID userId, Long bookingId) {
+        bookingRepository.findAllByIdAndUser(bookingId, User.builder().id(userId).build())
+                .ifPresent(b -> bookingRepository.deleteById(bookingId));
     }
 }

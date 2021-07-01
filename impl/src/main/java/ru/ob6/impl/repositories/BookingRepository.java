@@ -7,11 +7,13 @@ import org.springframework.stereotype.Repository;
 import ru.ob6.impl.models.Booking;
 import ru.ob6.impl.models.User;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "select exists(select * from booking where seance_id=:seanceId and seat_id=:seatId)", nativeQuery = true)
     Boolean existBookingBySeatAndSeance(@Param("seatId") Long seatId, @Param("seanceId") Long seanceId);
+    Optional<Booking> findAllByIdAndUser(Long id, User user);
     Set<Booking> findBookingsByUser(User user);
 }
