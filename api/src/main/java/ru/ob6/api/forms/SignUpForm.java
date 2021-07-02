@@ -21,7 +21,7 @@ public class SignUpForm {
     private String city;
     @NotBlank(message = "Имя не может быть пустым")
     private String firstName;
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$", message = "Пароль слишком простой")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$", message = "Пароль должен содержать по крайней мере 1 латинскую букву, 1 цифру и быть не короче 6 символов")
     private String password;
     private String passwordAgain;
 }

@@ -16,7 +16,7 @@ public class ForgotPasswordForm {
     @Email(message = "Почта не является действительной")
     private String email;
     @Builder.Default
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$", message = "Пароль слишком простой")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{6,}$", message = "Пароль должен содержать по крайней мере 1 латинскую букву, 1 цифру и быть не короче 6 символов")
     private String password = "";
     @Builder.Default
     private String passwordAgain = "";

@@ -47,7 +47,6 @@ public class BookingController {
             }
         }
 
-
-        return "redirect:/profile";
+        return "redirect:/film/" + filmId;
     }
 }
