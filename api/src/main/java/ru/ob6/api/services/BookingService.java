@@ -10,4 +10,6 @@ public interface BookingService {
     Boolean bookingSeat(BookingDto booking, UUID user);
 
     void cancelBooking(UUID userId, Long bookingId);
+
+    List<BookingDto> getAllViewedByUserEmail(String name);
 }

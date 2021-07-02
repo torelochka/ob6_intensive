@@ -13,10 +13,7 @@ import ru.ob6.impl.repositories.BookingRepository;
 import ru.ob6.impl.repositories.SeatRepository;
 import ru.ob6.impl.repositories.UserRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -37,11 +34,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookingsByUserEmail(String email) {
-
         Optional<User> optionalUser = userRepository.findUserByEmail(email);
         if (optionalUser.isPresent()) {
             Set<Booking> bookings = bookingRepository.findBookingsByUser(optionalUser.get());
-            return bookings.stream().map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
+            Date date = new Date();
+            return bookings.stream()
+                    .filter(b -> date.before(b.getSeance().getDate()))
+                    .map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
         }
         else return null;
     }
@@ -70,5 +69,18 @@ public class BookingServiceImpl implements BookingService {
     public void cancelBooking(UUID userId, Long bookingId) {
         bookingRepository.findAllByIdAndUser(bookingId, User.builder().id(userId).build())
                 .ifPresent(b -> bookingRepository.deleteById(bookingId));
+    }
+
+    @Override
+    public List<BookingDto> getAllViewedByUserEmail(String email) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(email);
+        if (optionalUser.isPresent()) {
+            Set<Booking> bookings = bookingRepository.findBookingsByUser(optionalUser.get());
+            Date date = new Date();
+            return bookings.stream()
+                    .filter(b -> date.after(b.getSeance().getDate()))
+                    .map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
+        }
+        else return null;
     }
 }

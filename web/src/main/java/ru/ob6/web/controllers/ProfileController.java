@@ -29,6 +29,9 @@ public class ProfileController {
     public String getCabinetPage(Model model, Authentication authentication) {
         model.addAttribute("userDataForm", userService.userDataByEmail(authentication.getName()));
         model.addAttribute("bookings", bookingService.getAllBookingsByUserEmail(authentication.getName()));
+        System.out.println("bookings " + bookingService.getAllBookingsByUserEmail(authentication.getName()));
+        System.out.println("vieweds " + bookingService.getAllViewedByUserEmail(authentication.getName()));
+        model.addAttribute("vieweds", bookingService.getAllViewedByUserEmail(authentication.getName()));
         return "profile";
     }
 

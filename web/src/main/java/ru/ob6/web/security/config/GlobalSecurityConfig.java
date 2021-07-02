@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.ob6.web.security.handlers.FailedAuthHandler;
 import ru.ob6.web.security.handlers.SuccessAuthHandler;
 
 import javax.sql.DataSource;
@@ -24,14 +25,17 @@ public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuccessAuthHandler successAuthHandler;
 
+    private final FailedAuthHandler failedAuthHandler;
+
     private final UserDetailsService userDetailsService;
 
     private final DataSource dataSource;
 
     @Autowired
-    public GlobalSecurityConfig(PasswordEncoder passwordEncoder, SuccessAuthHandler successAuthHandler, @Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService, DataSource dataSource) {
+    public GlobalSecurityConfig(PasswordEncoder passwordEncoder, SuccessAuthHandler successAuthHandler, FailedAuthHandler failedAuthHandler, @Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService, DataSource dataSource) {
         this.passwordEncoder = passwordEncoder;
         this.successAuthHandler = successAuthHandler;
+        this.failedAuthHandler = failedAuthHandler;
         this.userDetailsService = userDetailsService;
         this.dataSource = dataSource;
     }
@@ -51,7 +55,8 @@ public class GlobalSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                     .defaultSuccessUrl("/profile")
                     .successHandler(successAuthHandler)
-                    .failureUrl("/signIn?error").and()
+                    .failureHandler(failedAuthHandler).and()
+                    //.failureUrl("/signIn?error").and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                     .logoutSuccessUrl("/signIn")

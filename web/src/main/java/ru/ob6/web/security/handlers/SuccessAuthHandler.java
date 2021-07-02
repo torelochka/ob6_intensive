@@ -31,6 +31,13 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         session.setAttribute("user", modelMapper.map(userDetails.getUser(), UserDto.class));
 
-        httpServletResponse.sendRedirect("/films");
+        String refererAuth = (String) session.getAttribute("refererAuth");
+        if ( refererAuth != null
+                && !refererAuth.contains("signIn") && !refererAuth.contains("signUp")
+                && !refererAuth.contains("confirm")&& !refererAuth.contains("search")) {
+            httpServletResponse.sendRedirect(refererAuth);
+        } else {
+            httpServletResponse.sendRedirect("/films");
+        }
     }
 }

@@ -15,4 +15,7 @@ public interface FilmService {
     void rentOff(Long id);
 
     List<FilmDto> findFilms(String search);
+    List<FilmDto> findActiveFilms(String search);
+
+    List<FilmDto> getActiveFilms();
 }

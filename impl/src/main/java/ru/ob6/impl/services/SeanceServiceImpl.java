@@ -12,6 +12,7 @@ import ru.ob6.impl.repositories.FilmRepository;
 import ru.ob6.impl.repositories.SeanceRepository;
 import ru.ob6.impl.repositories.SeatRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,10 @@ public class SeanceServiceImpl implements SeanceService {
 
     @Override
     public List<SeanceDto> findByFilmId(Long id) {
-        return seanceRepository.findAllByFilmId(id)
-                .stream().map(f -> modelMapper.map(f, SeanceDto.class))
+        Date date = new Date();
+        return seanceRepository.findAllByFilmId(id).stream()
+                .filter(s -> date.before(s.getDate()))
+                .map(f -> modelMapper.map(f, SeanceDto.class))
                 .collect(Collectors.toList());
     }
 
