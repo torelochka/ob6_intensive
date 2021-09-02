@@ -25,7 +25,8 @@ public class BookingServiceImpl implements BookingService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public BookingServiceImpl(UserRepository userRepository, BookingRepository bookingRepository, SeatRepository seatRepository, ModelMapper modelMapper) {
+    public BookingServiceImpl(UserRepository userRepository, BookingRepository bookingRepository,
+                              SeatRepository seatRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.seatRepository = seatRepository;
@@ -42,16 +43,13 @@ public class BookingServiceImpl implements BookingService {
                     .filter(b -> date.before(b.getSeance().getDate()))
                     .map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
         }
-        else return null;
+        else return new ArrayList<>();
     }
 
     @Override
     public Boolean bookingSeat(BookingDto booking, UUID user) {
         Seat seat = seatRepository.findAllByRowAndColumn(booking.getSeat().getRow(), booking.getSeat().getColumn());
-        System.out.println(seat);
         Seance seance = modelMapper.map(booking.getSeance(), Seance.class);
-        System.out.println(seat.getId());
-        System.out.println(seance.getId());
         if (!bookingRepository.existBookingBySeatAndSeance(seat.getId(), seance.getId())) {
             Booking newBooking = Booking.builder()
                     .seance(seance)
@@ -81,6 +79,6 @@ public class BookingServiceImpl implements BookingService {
                     .filter(b -> date.after(b.getSeance().getDate()))
                     .map(booking -> modelMapper.map(booking, BookingDto.class)).collect(Collectors.toList());
         }
-        else return null;
+        else return new ArrayList<>();
     }
 }

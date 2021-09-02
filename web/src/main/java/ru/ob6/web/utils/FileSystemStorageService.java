@@ -32,7 +32,6 @@ public class FileSystemStorageService {
 			Path path = Paths.get(rootLocation);
 			UUID name = UUID.randomUUID();
 			String filename =  file.getName() + name;
-			//TODO проверить как записывает в бд
 			Path destinationFile = path.resolve(
 					Paths.get(file.getName() + name))
 					.normalize().toAbsolutePath();

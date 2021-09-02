@@ -8,8 +8,6 @@ import java.util.UUID;
 public interface BookingService {
     List<BookingDto> getAllBookingsByUserEmail(String email);
     Boolean bookingSeat(BookingDto booking, UUID user);
-
     void cancelBooking(UUID userId, Long bookingId);
-
     List<BookingDto> getAllViewedByUserEmail(String name);
 }

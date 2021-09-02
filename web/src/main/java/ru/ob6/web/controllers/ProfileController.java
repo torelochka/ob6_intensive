@@ -29,16 +29,17 @@ public class ProfileController {
     public String getCabinetPage(Model model, Authentication authentication) {
         model.addAttribute("userDataForm", userService.userDataByEmail(authentication.getName()));
         model.addAttribute("bookings", bookingService.getAllBookingsByUserEmail(authentication.getName()));
-        System.out.println("bookings " + bookingService.getAllBookingsByUserEmail(authentication.getName()));
-        System.out.println("vieweds " + bookingService.getAllViewedByUserEmail(authentication.getName()));
         model.addAttribute("vieweds", bookingService.getAllViewedByUserEmail(authentication.getName()));
         return "profile";
     }
 
     @PostMapping("/updateProfile")
-    public String postUserData(@Valid UserDataForm userDataForm, BindingResult bindingResult, Model model) {
+    public String postUserData(@Valid UserDataForm userDataForm, BindingResult bindingResult,
+                               Model model,  Authentication authentication) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("userDataForm", userDataForm);
+            model.addAttribute("bookings", bookingService.getAllBookingsByUserEmail(authentication.getName()));
+            model.addAttribute("vieweds", bookingService.getAllViewedByUserEmail(authentication.getName()));
             return "profile";
         }
         else {
